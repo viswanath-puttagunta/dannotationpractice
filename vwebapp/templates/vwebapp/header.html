@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<head>
+  <title>Vish Puttagunta </title>
+  <meta charset="utf-8">
+  {% load static %}
+  <link type="text/css" rel="stylesheet" href="http://annotorious.github.io/latest/annotorious.css" />
+  <script type="text/javascript" href="http://annotorious.github.io/latest/annotorious.min.js"></script>
+  <script>
+    function init() {
+      anno.makeAnnotatable(document.getElementById('myImage'));
+    }                                                           
+  </script>                                                     
+</head>
+<body onload="init();">
+  <div>
+    {% block content %} 
+    {% endblock %}
+  </div>
+</body>
+</html>
