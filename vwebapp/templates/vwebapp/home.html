@@ -33,7 +33,8 @@
 <script>
     var canvas = document.getElementById('canvas'),
         ctx = canvas.getContext("2d"),
-        rect = {},
+        rects = [],
+        ri = -1;
         drag = false;
     var owrapper = document.getElementsByClassName("outsideWrapper")[0];
     var leftOffset = owrapper.offsetLeft;
@@ -48,9 +49,11 @@
         canvas.addEventListener('mousemove',mouseMove,false);     
     }
     function mouseDown(e) {
+        rects.push({});
+        ri += 1;
+        var rect = rects[ri];
         rect.startX = (e.clientX - leftOffset)/scaleX;
         rect.startY = (e.clientY - topOffset)/scaleY;
-
         drag = true;     
     }
     function mouseUp() {
@@ -58,6 +61,7 @@
     }
     function mouseMove(e) {
         if(drag) {
+            var rect = rects[ri];
             var owrapper = document.getElementsByClassName("insideWrapper")[0];
             rect.w = (e.clientX - leftOffset)/scaleX - rect.startX;
             rect.h = (e.clientY - topOffset)/scaleY - rect.startY;     
@@ -66,9 +70,11 @@
         }
     }
     function draw() {
-        ctx.beginPath();
-        ctx.rect(rect.startX, rect.startY, rect.w, rect.h);
-        ctx.stroke();
+        rects.forEach(function(rect) {
+            ctx.beginPath();
+            ctx.rect(rect.startX, rect.startY, rect.w, rect.h);
+            ctx.stroke();
+        });
     }
 </script>
 
