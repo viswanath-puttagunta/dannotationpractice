@@ -30,6 +30,7 @@
         <canvas id="canvas", class="coveringCanvas"></canvas>
     </div>
 </div>
+<canvas id="c" width:"200px" height:"200px"></canvas>
 <script>
     var canvas = document.getElementById('canvas'),
         ctx = canvas.getContext("2d"),
@@ -41,7 +42,23 @@
     var topOffset = owrapper.offsetTop;
     var scaleX = 1.2445 // working for X axis
     var scaleY = 1.74   // working for Y axis
-    console.log(leftOffset, topOffset)
+
+    var canvas2 = new fabric.Canvas('c', {
+      backgroundColor: 'rgb(200,18000,200)',
+      selectionColor: 'blue',
+      selectionLineWidth: 2
+    });
+    var rect2 = new fabric.Rect({
+        left: 100,
+        top: 100,
+        fill: 'red',
+        opacity: '0.3',
+        width: 20,
+        height: 30 }
+    );
+    canvas2.add(rect2);
+    var text = new fabric.Text('hello world', { left: 100, top: 100, fontSize: 10 });
+    canvas2.add(text);
 
     function init() {
         canvas.addEventListener('mousedown',mouseDown, false);
