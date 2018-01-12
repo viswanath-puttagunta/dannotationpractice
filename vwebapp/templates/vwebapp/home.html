@@ -2,20 +2,53 @@
 {% block content %}
 <p> Hey, Welcome to website </p>
 
-<canvas id="canvas" width="500" height="500"></canvas>
+{% load static %}
+
+<style>
+  .outsideWrapper{ 
+    width:256px; height:256px; 
+    margin:20px 60px; 
+    border:1px solid blue;}
+  .insideWrapper{ 
+    width:100%; height:100%; 
+    position:relative;}
+  .coveredImage{ 
+    width:100%; height:100%; 
+    position:absolute; top:0px; left:0px;
+  }
+  .coveringCanvas{ 
+    width:100%; height:100%; 
+    position:absolute; top:0px; left:0px;
+    background-color: rgba(255,0,0,.1);
+  }
+</style>
+
+<div class="outsideWrapper">
+    <div class="insideWrapper">
+        {% load static %}
+        <img src="{% static 'vwebapp/img/splash-image-1.jpg' %}" class="coveredImage" />
+        <canvas id="canvas", class="coveringCanvas"></canvas>
+    </div>
+</div>
 <script>
     var canvas = document.getElementById('canvas'),
         ctx = canvas.getContext("2d"),
         rect = {},
         drag = false;
+    var owrapper = document.getElementsByClassName("insideWrapper")[0];
+    var leftOffset = owrapper.style.left;
+    var topOffset = owrapper.style.top;
+    console.log(leftOffset, topOffset)
+
     function init() {
         canvas.addEventListener('mousedown',mouseDown, false);
         canvas.addEventListener('mouseup',mouseUp, false);
         canvas.addEventListener('mousemove',mouseMove,false);     
     }
     function mouseDown(e) {
-        rect.startX = e.pageX - this.offsetLeft;
-        rect.startY = e.pageY - this.offsetTop;
+        rect.startX = e.pageX - leftOffset;
+        rect.startY = e.pageY - topOffset;
+
         drag = true;     
     }
     function mouseUp() {
@@ -23,8 +56,9 @@
     }
     function mouseMove(e) {
         if(drag) {
-            rect.w = (e.pageX - this.offsetLeft) - rect.startX;
-            rect.h = (e.pageY - this.offsetTop) - rect.startY;     
+            var owrapper = document.getElementsByClassName("insideWrapper")[0];
+            rect.w = (e.pageX - leftOffset) - rect.startX;
+            rect.h = (e.pageY - topOffset) - rect.startY;     
             ctx.clearRect(0,0,canvas.width, canvas.height);
             draw()
         }
