@@ -30,7 +30,10 @@
         <canvas id="canvas", class="coveringCanvas"></canvas>
     </div>
 </div>
-<canvas id="c" width:"200px" height:"200px"></canvas>
+<div id='anno'>
+    <canvas id="c" width:"200px" height:"200px"></canvas>
+    <button type="button" onclick="objHandler();"> Delete Object </button>
+</div>
 <script>
     var canvas = document.getElementById('canvas'),
         ctx = canvas.getContext("2d"),
@@ -42,6 +45,7 @@
     var topOffset = owrapper.offsetTop;
     var scaleX = 1.2445 // working for X axis
     var scaleY = 1.74   // working for Y axis
+    var objSelected = {}
 
     var canvas2 = new fabric.Canvas('c', {
       backgroundColor: 'rgb(200,18000,200)',
@@ -60,11 +64,25 @@
     var text = new fabric.Text('hello world', { left: 100, top: 100, fontSize: 10 });
     canvas2.add(text);
 
+    canvas2.on('mouse:down', function(options) {
+        if(options.target) {
+            objSelected = options.target
+            console.log('object clicked: ', options.target.type);
+        }
+    });
+
+    function objHandler() {
+        var activeObject = canvas2.getActiveObject();
+        canvas2.remove(activeObject);
+        canvas2.renderAll();
+    }
+
     function init() {
         canvas.addEventListener('mousedown',mouseDown, false);
         canvas.addEventListener('mouseup',mouseUp, false);
         canvas.addEventListener('mousemove',mouseMove,false);     
     }
+
     function mouseDown(e) {
         rects.push({});
         ri += 1;
@@ -93,6 +111,14 @@
             ctx.stroke();
         });
     }
+
+    canvas2.on('mouse:down', function(options) {
+        if(options.target) {
+            console.log('object clicked: ', options.target.type);
+        }
+    });
+
+
 </script>
 
 {% endblock %}
