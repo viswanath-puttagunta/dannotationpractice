@@ -33,6 +33,19 @@
 <div id='anno'>
     <canvas id="c" width:"200px" height:"200px"></canvas>
     <button type="button" onclick="objHandler();"> Delete Object </button>
+
+    <div>
+        <select id='ctype'>
+            <option value="PatientName">PatientName</option>
+            <option value="DoB">DoB</option>
+        </select>
+        <button type="button" onclick="selectHandler();">Set Class </button>
+    </div>
+
+    <div>
+        <input id='ctypeCustom' type="text">
+        <button type="button" onclick="frmHandler();">Set Class </button>
+    </div>
 </div>
 <script>
     var canvas = document.getElementById('canvas'),
@@ -45,7 +58,6 @@
     var topOffset = owrapper.offsetTop;
     var scaleX = 1.2445 // working for X axis
     var scaleY = 1.74   // working for Y axis
-    var objSelected = {}
 
     var canvas2 = new fabric.Canvas('c', {
       backgroundColor: 'rgb(200,18000,200)',
@@ -66,7 +78,8 @@
 
     canvas2.on('mouse:down', function(options) {
         if(options.target) {
-            objSelected = options.target
+            document.getElementById('ctypeCustom').value = options.target.annoClass;
+            document.getElementById('ctype').value = options.target.annoClass;
             console.log('object clicked: ', options.target.type);
         }
     });
@@ -76,11 +89,21 @@
         canvas2.remove(activeObject);
         canvas2.renderAll();
     }
+    function frmHandler() {
+        var activeObject = canvas2.getActiveObject();
+        activeObject.set({annoClass:document.getElementById('ctypeCustom').value});
+        canvas2.renderAll();
+    }
+    function selectHandler() {
+        var activeObject = canvas2.getActiveObject();
+        activeObject.set({annoClass:document.getElementById('ctype').value});
+        canvas2.renderAll();
+    }
 
     function init() {
         canvas.addEventListener('mousedown',mouseDown, false);
         canvas.addEventListener('mouseup',mouseUp, false);
-        canvas.addEventListener('mousemove',mouseMove,false);     
+        canvas.addEventListener('mousemove',mouseMove,false);
     }
 
     function mouseDown(e) {
