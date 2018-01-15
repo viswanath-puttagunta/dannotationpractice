@@ -6,7 +6,7 @@
 
 <style>
   .outsideWrapper{ 
-    width:297px; height:149px; 
+    width:595px; height:842px; 
     margin:60px 20px;
     border:1px solid blue;}
   .insideWrapper{ 
@@ -25,7 +25,7 @@
 
 <div id='anno' class="outsideWrapper">
     <div class="insideWrapper">
-        <img src="{% static 'vwebapp/img/splash-image-1.jpg' %}" class="coveredImage" />
+        <img src="{% static 'vwebapp/img/doc1_0001.jpg' %}" class="coveredImage" />
         <canvas id="c" class="coveringCanvas" ></canvas>
     </div>
 </div>
@@ -47,6 +47,9 @@
 </div>
 <script>
     var canvas2 = new fabric.Canvas('c');
+    canvas2.setWidth(595);
+    canvas2.setHeight(842);
+    canvas2.renderAll();
     var drec = {};
 
     canvas2.on('mouse:down', function(options) {
