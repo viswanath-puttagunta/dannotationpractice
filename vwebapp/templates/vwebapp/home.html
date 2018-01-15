@@ -39,9 +39,9 @@
             <option value="PatientName">PatientName</option>
             <option value="DoB">DoB</option>
         </select>
+        <input id='cContent' type="text">
         <button type="button" onclick="selectHandler();">Set Class </button>
     </div>
-
     <div>
         <input id='ctypeCustom' type="text">
         <button type="button" onclick="frmHandler();">Set Class </button>
@@ -73,13 +73,14 @@
         height: 30 }
     );
     canvas2.add(rect2);
-    var text = new fabric.Text('hello world', { left: 100, top: 100, fontSize: 10 });
+    var text = new fabric.Text('vish puttagunta', { left: 100, top: 100, fontSize: 10 });
     canvas2.add(text);
 
     canvas2.on('mouse:down', function(options) {
         if(options.target) {
-            document.getElementById('ctypeCustom').value = options.target.annoClass;
             document.getElementById('ctype').value = options.target.annoClass;
+            document.getElementById('cContent').value = options.target.annoContent;
+            document.getElementById('ctypeCustom').value = options.target.annoClass;
             console.log('object clicked: ', options.target.type);
         }
     });
@@ -96,7 +97,10 @@
     }
     function selectHandler() {
         var activeObject = canvas2.getActiveObject();
-        activeObject.set({annoClass:document.getElementById('ctype').value});
+        var ctype = document.getElementById('ctype').value;
+        var cContent = document.getElementById('cContent').value;
+        activeObject.set({annoClass:ctype});
+        activeObject.set({annoContent:cContent});
         canvas2.renderAll();
     }
 
