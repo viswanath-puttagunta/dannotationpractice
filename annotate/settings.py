@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'vwebapp',
+    'fabricanno',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

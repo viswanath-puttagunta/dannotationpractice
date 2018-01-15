@@ -30,28 +30,7 @@
         <canvas id="canvas", class="coveringCanvas"></canvas>
     </div>
 </div>
-<div id='anno' class="outsideWrapper">
-    <div class="insideWrapper">
-        <img src="{% static 'vwebapp/img/splash-image-1.jpg' %}" class="coveredImage" />
-        <canvas id="c" class="coveringCanvas" ></canvas>
-    </div>
-</div>
-<div>
-    <button type="button" onclick="objHandler();"> Delete Object </button>
 
-    <div>
-        <select id='ctype'>
-            <option value="PatientName">PatientName</option>
-            <option value="DoB">DoB</option>
-        </select>
-        <input id='cContent' type="text">
-        <button type="button" onclick="selectHandler();">Set Class </button>
-    </div>
-    <div>
-        <input id='ctypeCustom' type="text">
-        <button type="button" onclick="frmHandler();">Set Class </button>
-    </div>
-</div>
 <script>
     var canvas = document.getElementById('canvas'),
         ctx = canvas.getContext("2d"),
@@ -62,52 +41,9 @@
     var leftOffset = owrapper.offsetLeft;
     var topOffset = owrapper.offsetTop;
     var scaleX = 1  //1.2445 // working for X axis
+                    // To make "1" work, had to change 370px --> 370/1.2445 = 297
     var scaleY = 1  // 1.74   // working for Y axis
-    var canvas2 = new fabric.Canvas('c');
-    var drec = {};
-
-    canvas2.on('mouse:down', function(options) {
-        if(options.target) {
-            document.getElementById('ctype').value = options.target.annoClass;
-            document.getElementById('cContent').value = options.target.annoContent;
-            document.getElementById('ctypeCustom').value = options.target.annoClass;
-            console.log('object clicked: ', options.target.type);
-        } else {
-            drec.top = options.e.offsetY
-            drec.left = options.e.offsetX
-        }
-    });
-    canvas2.on('mouse:up', function(options) {
-        var activeObject = canvas2.getActiveObject();
-        if (!activeObject) {
-            drec.width = options.e.offsetX - drec.left;    
-            drec.height = options.e.offsetY - drec.top;
-            var rr = new fabric.Rect({
-                left: drec.left, top: drec.top, opacity: '0.3', width: drec.width, height: drec.height, fill:'black'   
-            });
-            canvas2.add(rr);
-            canvas2.renderAll();
-        }
-    });
-
-    function objHandler() {
-        var activeObject = canvas2.getActiveObject();
-        canvas2.remove(activeObject);
-        canvas2.renderAll();
-    }
-    function frmHandler() {
-        var activeObject = canvas2.getActiveObject();
-        activeObject.set({annoClass:document.getElementById('ctypeCustom').value});
-        canvas2.renderAll();
-    }
-    function selectHandler() {
-        var activeObject = canvas2.getActiveObject();
-        var ctype = document.getElementById('ctype').value;
-        var cContent = document.getElementById('cContent').value;
-        activeObject.set({annoClass:ctype});
-        activeObject.set({annoContent:cContent});
-        canvas2.renderAll();
-    }
+                    // To make "1" work, had to change 260px --> 260/1.74 = 149
 
     function init() {
         canvas.addEventListener('mousedown',mouseDown, false);

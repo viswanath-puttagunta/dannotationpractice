@@ -1,0 +1,97 @@
+{% extends 'fabricanno/header.html' %}
+{% block content %}
+<p> Hey, Welcome to website </p>
+
+{% load static %}
+
+<style>
+  .outsideWrapper{ 
+    width:297px; height:149px; 
+    margin:60px 20px;
+    border:1px solid blue;}
+  .insideWrapper{ 
+    width:100%; height:100%; 
+    position:relative;}
+  .coveredImage{ 
+    width:100%; height:100%; 
+    position:absolute; top:0px; left:0px;
+  }
+  .coveringCanvas{ 
+    width:100%; height:100%; 
+    position:absolute; top:0px; left:0px;
+    background-color: rgba(255,0,0,.1);
+  }
+</style>
+
+<div id='anno' class="outsideWrapper">
+    <div class="insideWrapper">
+        <img src="{% static 'vwebapp/img/splash-image-1.jpg' %}" class="coveredImage" />
+        <canvas id="c" class="coveringCanvas" ></canvas>
+    </div>
+</div>
+<div>
+    <button type="button" onclick="objHandler();"> Delete Object </button>
+
+    <div>
+        <select id='ctype'>
+            <option value="PatientName">PatientName</option>
+            <option value="DoB">DoB</option>
+        </select>
+        <input id='cContent' type="text">
+        <button type="button" onclick="selectHandler();">Set Class </button>
+    </div>
+    <div>
+        <input id='ctypeCustom' type="text">
+        <button type="button" onclick="frmHandler();">Set Class </button>
+    </div>
+</div>
+<script>
+    var canvas2 = new fabric.Canvas('c');
+    var drec = {};
+
+    canvas2.on('mouse:down', function(options) {
+        if(options.target) {
+            document.getElementById('ctype').value = options.target.annoClass;
+            document.getElementById('cContent').value = options.target.annoContent;
+            document.getElementById('ctypeCustom').value = options.target.annoClass;
+            console.log('object clicked: ', options.target.type);
+        } else {
+            drec.top = options.e.offsetY
+            drec.left = options.e.offsetX
+        }
+    });
+    canvas2.on('mouse:up', function(options) {
+        var activeObject = canvas2.getActiveObject();
+        if (!activeObject) {
+            drec.width = options.e.offsetX - drec.left;    
+            drec.height = options.e.offsetY - drec.top;
+            var rr = new fabric.Rect({
+                left: drec.left, top: drec.top, opacity: '0.3', width: drec.width, height: drec.height, fill:'black'   
+            });
+            canvas2.add(rr);
+            canvas2.renderAll();
+        }
+    });
+
+    function objHandler() {
+        var activeObject = canvas2.getActiveObject();
+        canvas2.remove(activeObject);
+        canvas2.renderAll();
+    }
+    function frmHandler() {
+        var activeObject = canvas2.getActiveObject();
+        activeObject.set({annoClass:document.getElementById('ctypeCustom').value});
+        canvas2.renderAll();
+    }
+    function selectHandler() {
+        var activeObject = canvas2.getActiveObject();
+        var ctype = document.getElementById('ctype').value;
+        var cContent = document.getElementById('cContent').value;
+        activeObject.set({annoClass:ctype});
+        activeObject.set({annoContent:cContent});
+        canvas2.renderAll();
+    }
+
+</script>
+
+{% endblock %}
