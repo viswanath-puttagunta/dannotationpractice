@@ -72,6 +72,7 @@
         width: 20,
         height: 30 }
     );
+    var drec = {};
     canvas2.add(rect2);
     var text = new fabric.Text('vish puttagunta', { left: 100, top: 100, fontSize: 10 });
     canvas2.add(text);
@@ -82,6 +83,21 @@
             document.getElementById('cContent').value = options.target.annoContent;
             document.getElementById('ctypeCustom').value = options.target.annoClass;
             console.log('object clicked: ', options.target.type);
+        } else {
+            drec.top = options.e.offsetY
+            drec.left = options.e.offsetX
+        }
+    });
+    canvas2.on('mouse:up', function(options) {
+        var activeObject = canvas2.getActiveObject();
+        if (!activeObject) {
+            drec.width = options.e.offsetX - drec.left;    
+            drec.height = options.e.offsetY - drec.top;
+            var rr = new fabric.Rect({
+                left: drec.left, top: drec.top, opacity: '0.3', width: drec.width, height: drec.height, fill:'red'   
+            });
+            canvas2.add(rr);
+            canvas2.renderAll();
         }
     });
 
