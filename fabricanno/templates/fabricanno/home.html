@@ -23,12 +23,17 @@
   }
 </style>
 
+<table style="width:100%">
+<tr>
+<td>
 <div id='anno' class="outsideWrapper">
     <div class="insideWrapper">
         <img src="{% static 'vwebapp/img/doc1_0001.jpg' %}" class="coveredImage" />
         <canvas id="c" class="coveringCanvas" ></canvas>
     </div>
 </div>
+</td>
+<td>
 <div>
     <button type="button" onclick="objHandler();"> Delete Object </button>
 
@@ -45,6 +50,9 @@
         <button type="button" onclick="frmHandler();">Set Class </button>
     </div>
 </div>
+</td>
+</tr>
+</table>
 <script>
     var canvas2 = new fabric.Canvas('c');
     canvas2.setWidth(595);
